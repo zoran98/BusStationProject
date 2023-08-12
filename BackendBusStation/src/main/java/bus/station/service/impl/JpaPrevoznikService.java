@@ -35,4 +35,20 @@ public class JpaPrevoznikService implements PrevoznikService{
 		return prevoznikRepository.findAll(PageRequest.of(pageNo, 10));
 	}
 
+	@Override
+	public Prevoznik save(Prevoznik prevoznik) {
+		// TODO Auto-generated method stub
+		return prevoznikRepository.save(prevoznik);
+	}
+
+	@Override
+	public Prevoznik delete(Long id) {
+		Prevoznik prevoznik = findOne(id);
+		if(prevoznik != null) {
+			prevoznikRepository.delete(prevoznik);
+			return prevoznik;
+		}
+		return null;
+	}
+
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BusStationAxios from "../../apis/BusStationAxios";
 import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 
 const Carriers = () => {
@@ -8,6 +9,7 @@ const Carriers = () => {
     const [carriers, setCarriers] = useState([]);
     const [totalPages, setTotalPages] = useState(0)
     const [pageNo, setPageNo] = useState(0)
+    const navigate = useNavigate()
 
     useEffect(() => {
         getCarriers(0);
@@ -33,9 +35,30 @@ const Carriers = () => {
             })
     }
 
+    const goToAdd = () => {
+        navigate("/carrier/add")
+    }
+
+    const doDelete = (carrierId) => {
+        BusStationAxios.delete("/prevoznici/" + carrierId)
+        .then((res) => {
+            console.log(res)
+            getCarriers()
+        })
+        .catch((error) => {
+            console.log(error)
+            alert("Nije uspelo brisanje prevoznika!")
+        })
+    }
+
     return (
         <div>
             <h1>Kategorije</h1>
+            <ButtonGroup style={{ marginTop: 25, float: "left" }}>
+                <Button style={{ margin: 3, width: 200 }} onClick={() => goToAdd()}>
+                    Kreiraj prevoznika
+                </Button>
+            </ButtonGroup>
             <ButtonGroup style={{ marginTop: 25, float: "right" }}>
                 <Button
                     style={{ margin: 3, width: 90 }}
@@ -65,6 +88,15 @@ const Carriers = () => {
                                 <td>{car.naziv}</td>
                                 <td>{car.adresa}</td>
                                 <td>{car.pib}</td>
+                                <td>
+                                    {window.localStorage['role'] == "ROLE_ADMIN" ?
+                                        [<Button
+                                            variant="danger"
+                                            onClick={() => doDelete(car.id)}
+                                            style={{marginLeft: 5}}>
+                                        Obrisi prevoznika
+                                        </Button>] : null}
+                                </td>
                             </tr>
                         );
                     })}

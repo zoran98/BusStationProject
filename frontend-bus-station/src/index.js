@@ -12,6 +12,7 @@ import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import Login from "./components/Login/Login";
 import { logout } from "./services/auth";
 import Carriers from "./components/Carriers/Carriers";
+import AddCarrier from "./components/Carriers/AddCarrier";
 
 const App = () => {
     return (
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="/" element={<Home/>} />
               <Route path="/login" element={<Login/>}/>
               <Route path="/carriers" element={<Carriers/>}/>
+              <Route path="/carrier/add" element={<AddCarrier/>}/>
               <Route path="*" element={<NotFound/>} />
             </Routes>
           </Container>
