@@ -81,7 +81,7 @@ public class PrevoznikController {
 			        }
 			    }
 				
-				//@PreAuthorize("hasAnyRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
+				@PreAuthorize("hasAnyRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
 				@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
 			    public ResponseEntity<PrevoznikDTO> update(@PathVariable Long id, @Valid @RequestBody PrevoznikDTO prevoznikDTO){
 
@@ -93,6 +93,17 @@ public class PrevoznikController {
 			        Prevoznik sacuvanPrevoznik = prevoznikService.update(prevoznik);
 
 			        return new ResponseEntity<>(toPrevoznikDto.convert(sacuvanPrevoznik),HttpStatus.OK);
+			    }
+				//@PreAuthorize("hasAnyRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
+				@GetMapping("/{id}")
+			    public ResponseEntity<PrevoznikDTO> getOne(@PathVariable Long id){
+			        Prevoznik prevoznik = prevoznikService.findOne(id);
+
+			        if(prevoznik != null) {
+			            return new ResponseEntity<>(toPrevoznikDto.convert(prevoznik), HttpStatus.OK);
+			        }else {
+			            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			        }
 			    }
 
 }

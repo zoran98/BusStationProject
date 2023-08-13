@@ -52,7 +52,7 @@ const Carriers = () => {
     }
 
     const goToEdit = (carId) => {
-        navigate("/carriers/edit/" + carId);
+        navigate("/carrier/edit/" + carId);
     }
 
     return (

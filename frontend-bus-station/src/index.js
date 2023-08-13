@@ -43,7 +43,7 @@ const App = () => {
               <Route path="/login" element={<Login/>}/>
               <Route path="/carriers" element={<Carriers/>}/>
               <Route path="/carrier/add" element={<AddCarrier/>}/>
-              <Route path="/carriers/edit/:id" element={<EditCarrier/>}/>
+              <Route path="/carrier/edit/:id" element={<EditCarrier/>}/>
               <Route path="*" element={<NotFound/>} />
             </Routes>
           </Container>

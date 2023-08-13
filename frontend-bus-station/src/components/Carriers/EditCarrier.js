@@ -5,7 +5,7 @@ import { Button, Form, FormControl, FormGroup, FormLabel } from "react-bootstrap
 
 const EditCarrier = () => {
 
-    const [carrier, setCarrier] = useState([])
+    const [carrier, setCarrier] = useState({})
     const navigate = useNavigate()
     const routeParams = useParams()
 
@@ -18,19 +18,19 @@ const EditCarrier = () => {
     }
 
     const getCarrier = () => {
-        BusStationAxios.get("/polaznici/" + routeParams.id)
+        BusStationAxios.get("/prevoznici/" + routeParams.id)
             .then((res) => {
                 console.log(res)
                 setCarrier(res.data)
             })
             .catch((error) => {
                 console.log(error)
-                alert("Doslo je do greske prilikom dobavljanja polaznika!")
+                alert("Doslo je do greske prilikom dobavljanja prevoznici!")
             })
     }
 
     const doEdit = () => {
-        BusStationAxios.put("/polaznici/" + routeParams.id, carrier)
+        BusStationAxios.put("/prevoznici/" + routeParams.id, carrier)
             .then((res) => {
                 console.log(res)
                 navigate("/carriers")
@@ -42,7 +42,7 @@ const EditCarrier = () => {
     }
 
     const valueInputChange = (e) => {
-        let editetCarrier = [...carrier];
+        let editetCarrier = { ...carrier };
 
         const name = e.target.name;
         const value = e.target.value;
