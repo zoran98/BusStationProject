@@ -51,4 +51,10 @@ public class JpaPrevoznikService implements PrevoznikService{
 		return null;
 	}
 
+	@Override
+	public Prevoznik update(Prevoznik prevoznik) {
+		// TODO Auto-generated method stub
+		return prevoznikRepository.save(prevoznik);
+	}
+
 }

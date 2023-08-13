@@ -41,14 +41,18 @@ const Carriers = () => {
 
     const doDelete = (carrierId) => {
         BusStationAxios.delete("/prevoznici/" + carrierId)
-        .then((res) => {
-            console.log(res)
-            getCarriers()
-        })
-        .catch((error) => {
-            console.log(error)
-            alert("Nije uspelo brisanje prevoznika!")
-        })
+            .then((res) => {
+                console.log(res)
+                getCarriers()
+            })
+            .catch((error) => {
+                console.log(error)
+                alert("Nije uspelo brisanje prevoznika!")
+            })
+    }
+
+    const goToEdit = (carId) => {
+        navigate("/carriers/edit/" + carId);
     }
 
     return (
@@ -93,8 +97,14 @@ const Carriers = () => {
                                         [<Button
                                             variant="danger"
                                             onClick={() => doDelete(car.id)}
-                                            style={{marginLeft: 5}}>
-                                        Obrisi prevoznika
+                                            style={{ marginLeft: 5 }}>
+                                            Obrisi prevoznika
+                                        </Button>,
+                                        <Button
+                                            variant="warning"
+                                            onClick={() => goToEdit(car.id)}
+                                            style={{ marginLeft: 5 }}>
+                                            Edit
                                         </Button>] : null}
                                 </td>
                             </tr>

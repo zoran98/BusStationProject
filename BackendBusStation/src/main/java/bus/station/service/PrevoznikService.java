@@ -13,5 +13,6 @@ public interface PrevoznikService {
 	Page<Prevoznik> findAll(int pageNo);
 	Prevoznik save(Prevoznik prevoznik);
 	Prevoznik delete(Long id);
+	Prevoznik update(Prevoznik prevoznik);
 
 }

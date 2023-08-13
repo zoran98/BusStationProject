@@ -13,6 +13,7 @@ import Login from "./components/Login/Login";
 import { logout } from "./services/auth";
 import Carriers from "./components/Carriers/Carriers";
 import AddCarrier from "./components/Carriers/AddCarrier";
+import EditCarrier from "./components/Carriers/EditCarrier";
 
 const App = () => {
     return (
@@ -42,6 +43,7 @@ const App = () => {
               <Route path="/login" element={<Login/>}/>
               <Route path="/carriers" element={<Carriers/>}/>
               <Route path="/carrier/add" element={<AddCarrier/>}/>
+              <Route path="/carriers/edit/:id" element={<EditCarrier/>}/>
               <Route path="*" element={<NotFound/>} />
             </Routes>
           </Container>
