@@ -51,8 +51,17 @@ public class PrevoznikController {
 	
 	//@PreAuthorize("hasRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
 		@GetMapping
-		public ResponseEntity<List<PrevoznikDTO>> getAll(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo){
-			Page<Prevoznik> page = prevoznikService.findAll(pageNo);
+		public ResponseEntity<List<PrevoznikDTO>> getAll(@RequestParam(value = "naziv", required = false) String naziv,
+				@RequestParam(value = "pib", required = false) String pib,
+				@RequestParam(value = "pageNo", defaultValue = "0") int pageNo){
+		//	Page<Prevoznik> page = prevoznikService.findAll(pageNo);
+			
+			Page<Prevoznik> page = null;
+			if(naziv != null || pib != null) {
+				page = prevoznikService.search(naziv, pib, pageNo);
+			}else {
+				page = prevoznikService.findAll(pageNo);
+			}
 			
 			HttpHeaders headers = new HttpHeaders();
 	        headers.add("Total-Pages", Integer.toString(page.getTotalPages()));

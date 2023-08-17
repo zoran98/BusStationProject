@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import BusStationAxios from "../../apis/BusStationAxios";
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { Button, ButtonGroup, Collapse, Form, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 
 const Carriers = () => {
 
     const [carriers, setCarriers] = useState([]);
+    const [search, setSearch] = useState({ naziv: "" , pib: "" })
+    const [showSearch, setShowSearch] = useState(false)
     const [totalPages, setTotalPages] = useState(0)
     const [pageNo, setPageNo] = useState(0)
     const navigate = useNavigate()
@@ -20,6 +22,14 @@ const Carriers = () => {
             params: {
                 pageNo: newPageNo
             }
+        }
+
+        if (search.naziv != "") {
+            conf.params.naziv = search.naziv;
+        }
+
+        if (search.pib != "") {
+            conf.params.pib = search.pib;
         }
 
         BusStationAxios.get("/prevoznici", conf)
@@ -39,11 +49,31 @@ const Carriers = () => {
         navigate("/carrier/add")
     }
 
+    const searchValueInputChange = (e) => {
+        let newSearch = { ...search }
+
+        const name = e.target.name;
+        const value = e.target.value;
+
+        newSearch[name] = value
+        setSearch(newSearch);
+    }
+
+    const doSearch = () => {
+        getCarriers(0);
+    }
+
     const doDelete = (carrierId) => {
         BusStationAxios.delete("/prevoznici/" + carrierId)
             .then((res) => {
                 console.log(res)
-                getCarriers()
+                var nextPage
+            if(pageNo == totalPages - 1 && carriers.length == 1){
+                nextPage = pageNo - 1
+            } else {
+                nextPage = pageNo
+            }
+                getCarriers(nextPage)
             })
             .catch((error) => {
                 console.log(error)
@@ -58,6 +88,36 @@ const Carriers = () => {
     return (
         <div>
             <h1>Kategorije</h1>
+
+            <Form.Group style={{ marginTop: 35 }}>
+                <Form.Check type="checkbox" label="Show search form" onClick={(e) => setShowSearch(e.target.checked)} />
+            </Form.Group> 
+            <Collapse in={showSearch}>
+            <Form style={{ marginTop: 10 }}>
+                    <Form.Group>
+                        <Form.Label>Naziv</Form.Label>
+                        <Form.Control
+                            value={search.naziv}
+                            name="naziv"
+                            as="input"
+                            onChange={(e) => searchValueInputChange(e)}>
+                                
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Pib</Form.Label>
+                        <Form.Control
+                            value={search.pib}
+                            name="pib"
+                            as="input"
+                            onChange={(e) => searchValueInputChange(e)}>
+                                
+                        </Form.Control>
+                    </Form.Group>
+                    <Button onClick={() => doSearch()}>Pretraga</Button>
+                </Form>
+                </Collapse>
+
             <ButtonGroup style={{ marginTop: 25, float: "left" }}>
                 <Button style={{ margin: 3, width: 200 }} onClick={() => goToAdd()}>
                     Kreiraj prevoznika

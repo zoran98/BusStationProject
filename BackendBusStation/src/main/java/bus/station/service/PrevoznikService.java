@@ -14,5 +14,6 @@ public interface PrevoznikService {
 	Prevoznik save(Prevoznik prevoznik);
 	Prevoznik delete(Long id);
 	Prevoznik update(Prevoznik prevoznik);
+	Page<Prevoznik> search(String naziv, String pib, int pageNo);
 
 }

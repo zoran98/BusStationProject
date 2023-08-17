@@ -57,4 +57,12 @@ public class JpaPrevoznikService implements PrevoznikService{
 		return prevoznikRepository.save(prevoznik);
 	}
 
+	@Override
+	public Page<Prevoznik> search(String naziv, String pib, int pageNo) {
+		if(naziv != null) {
+			naziv = "%" + naziv + "%";
+		}
+		return prevoznikRepository.search(naziv, pib, PageRequest.of(pageNo, 10));
+	}
+
 }
