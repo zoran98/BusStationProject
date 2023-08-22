@@ -87,7 +87,7 @@ const Carriers = () => {
 
     return (
         <div>
-            <h1>Kategorije</h1>
+            <h1>Prevoznici</h1>
 
             <Form.Group style={{ marginTop: 35 }}>
                 <Form.Check type="checkbox" label="Show search form" onClick={(e) => setShowSearch(e.target.checked)} />

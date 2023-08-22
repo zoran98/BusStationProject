@@ -14,6 +14,7 @@ import { logout } from "./services/auth";
 import Carriers from "./components/Carriers/Carriers";
 import AddCarrier from "./components/Carriers/AddCarrier";
 import EditCarrier from "./components/Carriers/EditCarrier";
+import Lines from "./components/Lines/Lines";
 
 const App = () => {
     return (
@@ -28,6 +29,9 @@ const App = () => {
             <Nav className="mr-auto">
               <Nav.Link as={Link} to="/carriers">
                 Prevoznici
+              </Nav.Link>
+              <Nav.Link as={Link} to="/lines">
+                Linije
               </Nav.Link>
             </Nav>
 
@@ -44,6 +48,7 @@ const App = () => {
               <Route path="/carriers" element={<Carriers/>}/>
               <Route path="/carrier/add" element={<AddCarrier/>}/>
               <Route path="/carrier/edit/:id" element={<EditCarrier/>}/>
+              <Route path="/lines" element={<Lines/>}/>
               <Route path="*" element={<NotFound/>} />
             </Routes>
           </Container>
