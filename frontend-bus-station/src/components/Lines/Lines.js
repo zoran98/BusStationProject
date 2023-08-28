@@ -35,9 +35,19 @@ const Lines = () => {
             })
     }
 
+    const goToAdd = () => {
+        navigate("/line/add")
+    }
+
     return (
         <div>
             <h1>Linije</h1>
+            <ButtonGroup style={{marginTop: 25, float: "left"}}>
+                <Button
+                style={{margin: 3, width: 150}} onClick={() => goToAdd()}>
+                    Kreiraj liniju
+                </Button>
+            </ButtonGroup>
             <ButtonGroup style={{ marginTop: 25, float: "right" }}>
                 <Button
                     style={{ margin: 3, width: 90 }}
