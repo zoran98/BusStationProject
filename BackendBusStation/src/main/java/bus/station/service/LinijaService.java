@@ -8,5 +8,6 @@ public interface LinijaService {
 	
 	Linija findOne(Long id);
 	Page<Linija> findAll(int pageNo);
+	Linija save(Linija linija);
 
 }

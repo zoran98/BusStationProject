@@ -25,4 +25,9 @@ public class JpaLinijaService implements LinijaService{
 		return linijaRepository.findAll(PageRequest.of(pageNo, 4));
 	}
 
+	@Override
+	public Linija save(Linija linija) {
+		return linijaRepository.save(linija);
+	}
+
 }
