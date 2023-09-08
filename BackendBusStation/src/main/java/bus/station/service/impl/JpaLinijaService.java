@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import bus.station.model.Linija;
+import bus.station.model.Prevoznik;
 import bus.station.repository.LinijaRepository;
 import bus.station.service.LinijaService;
 
@@ -28,6 +29,18 @@ public class JpaLinijaService implements LinijaService{
 	@Override
 	public Linija save(Linija linija) {
 		return linijaRepository.save(linija);
+	}
+
+	@Override
+	public Linija delete(Long id) {
+		Linija linija = findOne(id);
+		if(linija != null) {
+			Prevoznik p = linija.getPrevoznik();
+			p.removeLinija(linija.getId());
+			linijaRepository.delete(linija);
+			return linija;
+		}
+		return null;
 	}
 
 }
