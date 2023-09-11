@@ -43,4 +43,9 @@ public class JpaLinijaService implements LinijaService{
 		return null;
 	}
 
+	@Override
+	public Linija update(Linija linija) {
+		return linijaRepository.save(linija);
+	}
+
 }

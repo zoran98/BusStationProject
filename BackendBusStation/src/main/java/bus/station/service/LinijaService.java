@@ -10,5 +10,6 @@ public interface LinijaService {
 	Page<Linija> findAll(int pageNo);
 	Linija save(Linija linija);
 	Linija delete(Long id);
+	Linija update(Linija linija);
 
 }

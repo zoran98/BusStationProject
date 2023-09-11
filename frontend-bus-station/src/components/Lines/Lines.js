@@ -37,6 +37,10 @@ const Lines = () => {
     navigate("/line/add");
   };
 
+  const goToEdit = (lineId) => {
+    navigate("/line/edit/" + lineId);
+  }
+
   const doDelete = (lineId) => {
     BusStationAxios.delete("/linije/" + lineId)
       .then((res) => {
@@ -107,7 +111,14 @@ const Lines = () => {
                           onClick={() => doDelete(line.id)}
                           style={{ marginLeft: 5 }}
                         >
-                          Delete
+                          Brisanje
+                        </Button>,
+                        <Button
+                          variant="warning"
+                          onClick={() => goToEdit(line.id)}
+                          style={{ marginLeft: 5 }}
+                        >
+                          Izmena
                         </Button>,
                       ]
                     : null}

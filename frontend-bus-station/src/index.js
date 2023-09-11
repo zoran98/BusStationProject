@@ -16,6 +16,8 @@ import AddCarrier from "./components/Carriers/AddCarrier";
 import EditCarrier from "./components/Carriers/EditCarrier";
 import Lines from "./components/Lines/Lines";
 import AddLine from "./components/Lines/AddLine";
+import EditLine from "./components/Lines/EditLine";
+
 
 const App = () => {
     return (
@@ -51,6 +53,7 @@ const App = () => {
               <Route path="/carrier/edit/:id" element={<EditCarrier/>}/>
               <Route path="/lines" element={<Lines/>}/>
               <Route path="/line/add" element={<AddLine/>}/>
+              <Route path="/line/edit/:id" element={<EditLine/>}/>
               <Route path="*" element={<NotFound/>} />
             </Routes>
           </Container>

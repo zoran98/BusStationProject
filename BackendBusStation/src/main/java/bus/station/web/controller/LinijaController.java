@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +54,18 @@ public class LinijaController {
 	}
 	
 	//@PreAuthorize("hasAnyRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
+			@GetMapping("/{id}")
+		    public ResponseEntity<LinijaDTO> getOne(@PathVariable Long id){
+		        Linija linija = linijaService.findOne(id);
+
+		        if(linija != null) {
+		            return new ResponseEntity<>(toLinijaDto.convert(linija), HttpStatus.OK);
+		        }else {
+		            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		        }
+		    }
+	
+	//@PreAuthorize("hasAnyRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LinijaDTO> create(@Valid @RequestBody LinijaDTO linijaDTO){
         	Linija linija = toLinija.convert(linijaDTO);
@@ -71,5 +84,19 @@ public class LinijaController {
 		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		     }
 	}
+	
+	//@PreAuthorize("hasAnyRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
+			@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+		    public ResponseEntity<LinijaDTO> update(@PathVariable Long id, @Valid @RequestBody LinijaDTO linijaDTO){
+
+		        if(!id.equals(linijaDTO.getId())) {
+		            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		        }
+
+		        Linija linija = toLinija.convert(linijaDTO);
+		        Linija sacuvanaLinija = linijaService.update(linija);
+
+		        return new ResponseEntity<>(toLinijaDto.convert(sacuvanaLinija),HttpStatus.OK);
+		    }
 
 }
