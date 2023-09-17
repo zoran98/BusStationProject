@@ -164,7 +164,7 @@ const Carriers = () => {
                                             variant="warning"
                                             onClick={() => goToEdit(car.id)}
                                             style={{ marginLeft: 5 }}>
-                                            Edit
+                                            Izmena
                                         </Button>] : null}
                                 </td>
                             </tr>

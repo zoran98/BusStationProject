@@ -11,5 +11,6 @@ public interface LinijaService {
 	Linija save(Linija linija);
 	Linija delete(Long id);
 	Linija update(Linija linija);
+	Page<Linija> search(Long prevoznikId, String destinacija, int pageNo);
 
 }

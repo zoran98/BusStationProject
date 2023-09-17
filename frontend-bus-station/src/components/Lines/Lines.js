@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BusStationAxios from "../../apis/BusStationAxios";
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { Button, ButtonGroup, Collapse, Form, Table } from "react-bootstrap";
 
 const Lines = () => {
   const [lines, setLines] = useState([]);
+  const [carriers, setCarriers] = useState([]);
+  const [search, setSearch] = useState({ prevoznikId: -1, destinacija: "" });
+  const [showSearch, setShowSearch] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [pageNo, setPageNo] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
+    getCarriers();
     getLines(0);
   }, []);
 
@@ -19,6 +23,13 @@ const Lines = () => {
         pageNo: newPageNo,
       },
     };
+    if (search.prevoznikId != -1) {
+      conf.params.prevoznikId = search.prevoznikId;
+    }
+
+    if (search.destinacija != "") {
+      conf.params.destinacija = search.destinacija;
+    }
 
     BusStationAxios.get("/linije", conf)
       .then((res) => {
@@ -33,13 +44,39 @@ const Lines = () => {
       });
   };
 
+  const getCarriers = () => {
+    BusStationAxios.get("/prevoznici")
+    .then((res) => {
+      console.log(res)
+      setCarriers(res.data)
+    })
+    .catch((error) => {
+      console.log(error)
+      alert("Doslo je do greske prilikom dobavljanja prevoznika!");
+    })
+  }
+
   const goToAdd = () => {
     navigate("/line/add");
   };
 
   const goToEdit = (lineId) => {
     navigate("/line/edit/" + lineId);
-  }
+  };
+
+  const doSearch = () => {
+    getLines(0);
+  };
+
+  const searchValueInputChange = (e) => {
+    let newSearch = { ...search };
+
+    const name = e.target.name;
+    const value = e.target.value;
+
+    newSearch[name] = value;
+    setSearch(newSearch);
+  };
 
   const doDelete = (lineId) => {
     BusStationAxios.delete("/linije/" + lineId)
@@ -62,6 +99,46 @@ const Lines = () => {
   return (
     <div>
       <h1>Linije</h1>
+      <Form.Group style={{ marginTop: 35 }}>
+        <Form.Check
+          type="checkbox"
+          label="Show search form"
+          onClick={(e) => setShowSearch(e.target.checked)}
+        />
+      </Form.Group>
+      <Collapse in={showSearch}>
+        <Form style={{ marginTop: 10 }}>
+          <Form.Group>
+            <Form.Label>Prevoznici</Form.Label>
+            <Form.Control
+              onChange={(e) => searchValueInputChange(e)}
+              name="prevoznikId"
+              value={search.prevoznikId}
+              as="select"
+            >
+              <option value={-1}>Odaberi prevoznika</option>
+              {carriers.map((car) => {
+                return (
+                  <option value={car.id} key={car.id}>
+                    {car.naziv}
+                  </option>
+                );
+              })}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Destinacija</Form.Label>
+            <Form.Control
+              value={search.destinacija}
+              name="destinacija"
+              as="input"
+              onChange={(e) => searchValueInputChange(e)}
+            ></Form.Control>
+          </Form.Group>
+          <Button onClick={() => doSearch()}>Pretraga</Button>
+        </Form>
+      </Collapse>
+
       <ButtonGroup style={{ marginTop: 25, float: "left" }}>
         <Button style={{ margin: 3, width: 150 }} onClick={() => goToAdd()}>
           Kreiraj liniju
@@ -111,7 +188,7 @@ const Lines = () => {
                           onClick={() => doDelete(line.id)}
                           style={{ marginLeft: 5 }}
                         >
-                          Brisanje
+                          Obrisi liniju
                         </Button>,
                         <Button
                           variant="warning"

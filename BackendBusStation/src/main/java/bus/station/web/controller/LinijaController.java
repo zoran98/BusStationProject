@@ -43,9 +43,17 @@ public class LinijaController {
 	
 	//@PreAuthorize("hasRole('ROLE_KORISNIK', 'ROLE_ADMIN')")
 	@GetMapping
-	public ResponseEntity<List<LinijaDTO>> getAll(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo){
+	public ResponseEntity<List<LinijaDTO>> getAll(@RequestParam(value = "prevoznikId", required = false) Long prevoznikId,
+			@RequestParam(value = "destinacija", required = false) String destinacija,
+			@RequestParam(value = "pageNo", defaultValue = "0") int pageNo){
 
-		Page<Linija> page = linijaService.findAll(pageNo);
+//		Page<Linija> page = linijaService.findAll(pageNo);
+		Page<Linija> page = null;
+        if(prevoznikId != null || destinacija != null) {
+        	page = linijaService.search(prevoznikId, destinacija, pageNo);
+        } else {
+        	page = linijaService.findAll(pageNo);
+        }
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Total-Pages", Integer.toString(page.getTotalPages()));

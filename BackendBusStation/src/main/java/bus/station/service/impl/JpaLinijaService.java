@@ -48,4 +48,12 @@ public class JpaLinijaService implements LinijaService{
 		return linijaRepository.save(linija);
 	}
 
+	@Override
+	public Page<Linija> search(Long prevoznikId, String destinacija, int pageNo) {
+		if(destinacija != null) {
+			destinacija = "%" + destinacija + "%";
+		}
+		return linijaRepository.search(prevoznikId, destinacija, PageRequest.of(pageNo, 10));
+	}
+
 }
